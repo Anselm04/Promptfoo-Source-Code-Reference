@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: Route support messages with Gemini on Vertex AI
+
+prompts:
+  - '{{message}}'
+
+providers:
+  - id: vertex:gemini-3.8-flash
+    config:
+      expressMode: false
+      region: global
+      systemInstruction: Classify each message as billing or shipping. Reply with just the lowercase label.
+
+# Use project credentials and independent instructions if you add a model-graded assertion.
+defaultTest:
+  options:
+    provider:
+      text:
+        id: vertex:gemini-3.8-flash
+        config:
+          region: global
+          expressMode: false
+
+tests:
+  - vars:
+      message: I was charged twice for my order.
+    assert:
+      - type: equals
+        value: billing
+  - vars:
+      message: Where is my package?
+    assert:
+      - type: equals
+        value: shipping
