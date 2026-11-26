@@ -31,7 +31,7 @@ jobs:
               meta,raw=entry.split(b'\t',1)
               mode,kind,sha=meta.split()
               p=os.fsdecode(raw)
-              if p.startswith('.github/workflows/') or p in ('.github/dependabot.yml','.github/dependabot.yaml') or kind!=b'blob' or mode==b'120000': continue
+              if p.startswith('.github/workflows/') or p in ('.github/dependabot.yml','.github/dependabot.yaml') or p == 'site/src/components/Store/useFourthwall.ts' or kind!=b'blob' or mode==b'120000': continue
               dest=pathlib.Path(p)
               dest.parent.mkdir(parents=True,exist_ok=True)
               data=subprocess.check_output(['git','-C',str(src),'cat-file','blob',sha.decode()])
